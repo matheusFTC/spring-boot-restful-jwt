@@ -1,5 +1,7 @@
 package br.com.mftc.restapijwt.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,9 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "phones")
-public class Phone {
+public class Phone implements Serializable {
+
+	private static final long serialVersionUID = 3811191486982376281L;
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
