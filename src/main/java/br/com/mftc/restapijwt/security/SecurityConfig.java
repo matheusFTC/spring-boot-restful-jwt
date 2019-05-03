@@ -10,9 +10,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import br.com.mftc.restapijwt.security.jwt.JwtConfigurer;
-import br.com.mftc.restapijwt.security.jwt.JwtTokenProvider;
-
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -37,10 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-                .authorizeRequests()
-                .antMatchers("/rest/signup").permitAll()
-                .antMatchers("/rest/signin").permitAll()
-                .anyRequest().authenticated()
+            .authorizeRequests()
+            .antMatchers("/rest/signup").permitAll()
+            .antMatchers("/rest/signin").permitAll()
+            .anyRequest().authenticated()
             .and()
             .apply(new JwtConfigurer(jwtTokenProvider));
     }
