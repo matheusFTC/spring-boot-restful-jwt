@@ -30,8 +30,8 @@ public class JwtTokenProvider {
     private UserDetailsService userDetailsService;
 
 	public String createToken(String username, List<String> roles) {
-
         Claims claims = Jwts.claims().setSubject(username);
+        
         claims.put("roles", roles);
 
         Date now = new Date();
@@ -47,6 +47,7 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = this.userDetailsService.loadUserByUsername(getUsername(token));
+        
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
@@ -74,7 +75,7 @@ public class JwtTokenProvider {
             	return true;
             }
         } catch (JwtException | IllegalArgumentException exception) {
-            throw new InvalidJwtAuthenticationException("Expired or invalid JWT token");
+            throw new InvalidJwtAuthenticationException("Invalid JWT token");
         }
     }
 

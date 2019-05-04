@@ -4,17 +4,21 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -47,12 +51,20 @@ public class User implements UserDetails {
 	@Column(name = "us_password", nullable = false)
 	private String password;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "us_id")
 	private List<Phone> phones;
 	
 	@Transient
     private List<String> roles = Arrays.asList("ROLE_USER", "ROLE_ADMIN");
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "us_created_at", nullable = false)
+	private Date createdAt;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "us_last_login")
+	private Date lastLogin;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -88,6 +100,29 @@ public class User implements UserDetails {
 		this.email = email;
 		this.password = password;
 		this.phones = phones;
+	}
+	
+	public User(Long id, String firstName, String lastName, String email, String password, List<Phone> phones, Date createdAt) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.phones = phones;
+		this.createdAt = createdAt;
+	}
+	
+	public User(Long id, String firstName, String lastName, String email, String password, List<Phone> phones, Date createdAt, Date lastLogin) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.phones = phones;
+		this.createdAt = createdAt;
+		this.lastLogin = lastLogin;
 	}
 
 	public Long getId() {
@@ -145,6 +180,22 @@ public class User implements UserDetails {
 	
 	public List<String> getRoles() {
 		return roles;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Date lastLogin) {
+		this.lastLogin = lastLogin;
 	}
 
 	@Override

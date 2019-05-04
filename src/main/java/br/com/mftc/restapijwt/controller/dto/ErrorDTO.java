@@ -1,8 +1,8 @@
-package br.com.mftc.restapijwt.controller;
+package br.com.mftc.restapijwt.controller.dto;
 
 import java.io.Serializable;
 
-public class ErrorMessage implements Serializable {
+public class ErrorDTO implements Serializable {
 
 	private static final long serialVersionUID = -2741977249552748326L;
 
@@ -10,7 +10,7 @@ public class ErrorMessage implements Serializable {
 	
 	private String message;
 
-	public ErrorMessage(Integer errorCode, String message) {
+	public ErrorDTO(Integer errorCode, String message) {
 		super();
 		this.errorCode = errorCode;
 		this.message = message;
